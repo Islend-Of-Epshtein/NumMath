@@ -299,8 +299,8 @@ public class MainFrame  extends JFrame implements PropertyChangeListener
     }
 
     @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-
+    public void propertyChange(PropertyChangeEvent evt)
+    {
         if (window!=null && Objects.equals(evt.getPropertyName(), "approximations")){
             updateLabel();
         }
