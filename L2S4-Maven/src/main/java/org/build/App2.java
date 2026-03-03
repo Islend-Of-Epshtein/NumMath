@@ -2,7 +2,7 @@ package org.build;
 
 import java.util.Arrays;
 
-public class App2 {
+public class App2 extends Main{
 
     public App2() {
         runDemo();

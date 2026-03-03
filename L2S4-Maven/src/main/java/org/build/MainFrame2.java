@@ -1,22 +1,52 @@
 package org.build;
 
-import java.awt.Menu;
-import java.awt.MenuBar;
+import javax.swing.*;
+import java.awt.*;
 
 public class MainFrame2 extends MainFrame {
 
-    public MainFrame2(App p) {
+    public MainFrame2(Main p) {
         super(p);
+        super.initComponents();
+        AddSwitchMenu();
+        setVisible(true);
 
-        MenuBar menuBar = getMenuBar();
-        if (menuBar == null) {
-            menuBar = new MenuBar();
-            setMenuBar(menuBar);
+    }
+
+    protected void initComponents2() {
+        menuBar.removeAll();
+        AddSwitchMenu();
+        Container p = new Container();
+        Panel panel = new Panel(new FlowLayout());
+        p.add(panel);
+        add(p);
+    }
+    protected void AddSwitchMenu(){
+        JMenu option = new JMenu("Лабораторные");
+        JMenuItem Lab1 = new JMenuItem("лабораторная 1");
+        JMenuItem Lab2 = new JMenuItem("лабораторная 2");
+        option.add(Lab1);
+        option.add(Lab2);
+        menuBar.add(option);
+        Lab1.addActionListener(e -> {
+            getContentPane().removeAll();
+            super.initComponents();
+            AddSwitchMenu();
+            setVisible(true);
+        });
+        Lab2.addActionListener(e -> {
+            getContentPane().removeAll();
+            this.initComponents2();
+            setVisible(true);
+        });
+    }
+    // Переопределяем метод для изменения поведения
+    @Override
+    public void propertyChange(java.beans.PropertyChangeEvent evt) {
+        super.propertyChange(evt); // вызываем родительский метод
+
+        // Добавляем свою логику
+        if (evt.getPropertyName().equals("approximations")) {
         }
-
-        menuBar.add(new Menu("Lab2"));
-        // Здесь позже можно добавить MenuItem и запуск new App2(...)
-        // Не скрываем окно без причины:
-        // setVisible(false);
     }
 }

@@ -5,3 +5,4 @@ public enum NormType {
     TWO,
     INF
 }
+

@@ -2,7 +2,7 @@ package org.build;
 
 import Jama.Matrix;
 
-public class App {
+public class App1 extends Main {
 
     private boolean straightDone = false;
     private Matrix matrixA, matrixB, matrixS;
@@ -45,7 +45,7 @@ public class App {
                     matrixB.set(k, 0, tempB);
                 }
                 if (pivotColumn != k) {
-                    swapRows(pivotColumn, k);
+                    swapColumns(pivotColumn, k);
                 }
 
                 // 3. Исключение переменной из нижних строк
@@ -63,9 +63,7 @@ public class App {
                     matrixB.set(i, 0, newB);
                 }
             }
-
             straightDone = true;
-            System.out.println("Прямой ход метода Гаусса выполнен успешно");
 
         } catch (Exception ex) {
             throw new RuntimeException("Ошибка в прямом ходе метода Гаусса. " + ex.getMessage());
@@ -92,7 +90,6 @@ public class App {
                     }
                 }
                 if (pivotRow == -1) {
-                    System.out.println("Столбец " + k + " нулевой, пропускаем");
                     continue; // нулевой столбец
                 }
 
@@ -122,7 +119,6 @@ public class App {
             }
 
             straightDone = true;
-            System.out.println("Прямой ход метода Гаусса выполнен успешно");
 
         } catch (Exception ex) {
             throw new RuntimeException("Ошибка в прямом ходе метода Гаусса. " + ex.getMessage());
@@ -155,8 +151,6 @@ public class App {
                 double x = (matrixB.get(i, 0) - sum) / matrixA.get(i, i);
                 setMatrixS(x, i);
             }
-
-            System.out.println("Обратный ход метода Гаусса выполнен успешно");
 
         } catch (Exception ex) {
             throw new RuntimeException("Ошибка в обратном ходе метода Гаусса: " + ex.getMessage());
@@ -203,7 +197,7 @@ public class App {
     }
 
     public void verifySolution() {
-        System.out.println("\n=== ПРОВЕРКА РЕШЕНИЯ ===");
+        //System.out.println("\n=== ПРОВЕРКА РЕШЕНИЯ ===");
 
         // Транспонируем matrixS, так как это строка, а нам нужен столбец
         Matrix x = matrixS.transpose();
@@ -211,10 +205,10 @@ public class App {
         // Вычисляем A * x
         Matrix Ax = matrixA.times(x);
 
-        System.out.println("A * x =");
+        //System.out.println("A * x =");
         Ax.print(10, 6);
 
-        System.out.println("B (должно быть равно A*x) =");
+        //System.out.println("B (должно быть равно A*x) =");
         matrixB.print(10, 6);
 
         // Вычисляем невязку
@@ -230,7 +224,7 @@ public class App {
         }
     }
 
-    public App(String[] args) {
+    public App1(String[] args) {
         try {
             // Матрица A: 3×3
             double[][] A = {
@@ -250,10 +244,10 @@ public class App {
             };
             matrixB = new Matrix(B);
 
-            System.out.println("Исходная матрица A:");
+            //System.out.println("Исходная матрица A:");
             matrixA.print(8, 2);
 
-            System.out.println("\nИсходная матрица B:");
+            //System.out.println("\nИсходная матрица B:");
             matrixB.print(8, 2);
 
             // Прямой ход метода Гаусса ( с выбором главного и без )
@@ -262,28 +256,24 @@ public class App {
 
             //StandardStraightWay();
 
-            System.out.println("\nМатрица A после прямого хода:");
+            //System.out.println("\nМатрица A после прямого хода:");
             matrixA.print(8, 2);
 
-            System.out.println("\nМатрица B после прямого хода:");
+            //System.out.println("\nМатрица B после прямого хода:");
             matrixB.print(8, 2);
 
             // Обратный ход метода Гаусса
             GausMetod();
 
             // Вывод решения
-            printSolution();
+            //printSolution();
 
             // Проверка решения
-            verifySolution();
+            //verifySolution();
 
         } catch (Exception ex) {
-            System.err.println("Ошибка: " + ex.getMessage());
-            ex.printStackTrace();
+            //System.err.println("Ошибка: " + ex.getMessage());
+            //ex.printStackTrace();
         }
-    }
-
-    public static void main(String[] args) {
-        new App(args);
     }
 }
