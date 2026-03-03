@@ -10,14 +10,19 @@ import java.util.Arrays;
 import java.util.Objects;
 
 //JOptionPane.showMessageDialog(this, "Введите число!");
-public class MainFrame  extends JFrame implements PropertyChangeListener
+public class MainFrame extends JFrame implements PropertyChangeListener
 {
+    protected final MainFrame frame = this;
     private Main model;
     private JWindow window;
     private JTextArea ta1 ,ta2, ta3;
     private JLabel label;
     private JTextArea iterTextArea;
     private final Font font = new Font("Arial",Font.BOLD, 25);
+
+    // Добавляем поле для menuBar
+    protected JMenuBar menuBar;
+
     public MainFrame(Main p) {
         this.model=p;
         setSize(500, 400);
@@ -27,48 +32,50 @@ public class MainFrame  extends JFrame implements PropertyChangeListener
         setIconImage(img.getImage());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         initComponents();
-        setVisible(true);
+
     }
-    private void initComponents()
+
+    protected void initComponents()
     {
         JPanel mainpanel = new JPanel(new BorderLayout());
-        JMenuBar menubar = new JMenuBar();
+        // Инициализируем menuBar
+        menuBar = new JMenuBar();
+
+        // Создаем меню "График"
         JMenu graf = new JMenu("График");
-        menubar.add(graf);
         JMenuItem Show = new JMenuItem("Построить график.");
         Show.addActionListener(e-> new Grafic(this.getLocation().x, this.getLocation().y));
         graf.add(Show);
-        JMenu NumMenu = new JMenu("Переменные");
-        menubar.add(NumMenu);
-        JMenu СheckMenu = new JMenu("Отладка");
-        menubar.add(СheckMenu);
-        JMenuItem showIteration = new JMenuItem("Показывать историю итераций");
-        JMenuItem closeIteration = new JMenuItem("Закрыть окно итераций");
-        СheckMenu.add(showIteration);
-        СheckMenu.add(closeIteration);
-        closeIteration.addActionListener(e->{
-            CloseIter();
-        });
-        showIteration.addActionListener(e->{
-            ShowIter();
-        });
+        menuBar.add(graf);
 
+        // Создаем меню "Переменные"
+        JMenu NumMenu = new JMenu("Переменные");
         JMenuItem editEps = new JMenuItem("Задать постоянную epsilon");
         JMenuItem editCount = new JMenuItem("Максимальное количество итераций");
+
+        editEps.addActionListener(e -> ChangeNumeral("Значение точности (eps):", "eps"));
+        editCount.addActionListener(e -> ChangeNumeral("Максимальное количесвто итераций(Count):", "count"));
+
         NumMenu.add(editEps);
         NumMenu.add(editCount);
-        editEps.addActionListener(e->
-        {
-            ChangeNumeral("Значение точности (eps):", "eps");
-        });
-        editCount.addActionListener(e->
-        {
-            ChangeNumeral("Максимальное количесвто итераций(Count):", "count");
-        });
+        menuBar.add(NumMenu);
 
+        // Создаем меню "Отладка"
+        JMenu СheckMenu = new JMenu("Отладка");
+        JMenuItem showIteration = new JMenuItem("Показывать историю итераций");
+        JMenuItem closeIteration = new JMenuItem("Закрыть окно итераций");
 
-        setJMenuBar(menubar);
+        showIteration.addActionListener(e -> ShowIter());
+        closeIteration.addActionListener(e -> CloseIter());
 
+        СheckMenu.add(showIteration);
+        СheckMenu.add(closeIteration);
+        menuBar.add(СheckMenu);
+
+        // Устанавливаем menuBar
+        setJMenuBar(menuBar);
+
+        // Остальная часть initComponents без изменений
         JPanel gridpanel = new JPanel(new GridLayout(0,2));
         ArrayList<JButton> btns = new ArrayList<>(Arrays.asList(
                 createStyledButton("<html><center>Половинный<br>интервал</center></html>"),
@@ -117,6 +124,45 @@ public class MainFrame  extends JFrame implements PropertyChangeListener
 
         add(mainpanel);
     }
+
+    // Метод для добавления нового меню
+    public void addMenu(JMenu menu) {
+        if (menuBar != null) {
+            menuBar.add(menu);
+            menuBar.revalidate();
+            menuBar.repaint();
+        }
+    }
+
+    // Метод для добавления пункта в существующее меню
+    public void addMenuItem(String menuName, JMenuItem item) {
+        if (menuBar != null) {
+            for (int i = 0; i < menuBar.getMenuCount(); i++) {
+                JMenu menu = menuBar.getMenu(i);
+                if (menu != null && menu.getText().equals(menuName)) {
+                    menu.add(item);
+                    menuBar.revalidate();
+                    menuBar.repaint();
+                    return;
+                }
+            }
+        }
+    }
+
+    // Метод для создания нового меню с пунктами
+    public JMenu createMenu(String menuName, JMenuItem... items) {
+        JMenu menu = new JMenu(menuName);
+        for (JMenuItem item : items) {
+            menu.add(item);
+        }
+        return menu;
+    }
+
+    // Метод для получения menuBar (для наследников)
+    protected JMenuBar getMenuBarComponent() {
+        return menuBar;
+    }
+
     private void addMethodListener(JButton button, String methodName,
                                    JLabel resultLabel, Runnable methodCall) {
         button.addActionListener(e -> {
@@ -128,6 +174,7 @@ public class MainFrame  extends JFrame implements PropertyChangeListener
             }
         });
     }
+
     private double getMethodResult(String methodName) {
         switch (methodName) {
             case "half": return model.getHDMR();
@@ -138,6 +185,7 @@ public class MainFrame  extends JFrame implements PropertyChangeListener
             default: return 0;
         }
     }
+
     private Double getX0()
     {
         if(!TryParseDouble(ta3.getText())){
@@ -145,6 +193,7 @@ public class MainFrame  extends JFrame implements PropertyChangeListener
         }
         return Double.parseDouble(ta3.getText());
     }
+
     private double getX1()
     {
         if(!TryParseDouble(ta1.getText()))
@@ -153,6 +202,7 @@ public class MainFrame  extends JFrame implements PropertyChangeListener
         }
         return Double.parseDouble(ta1.getText());
     }
+
     private double getX2()
     {
         if(!TryParseDouble(ta2.getText()))
@@ -161,6 +211,7 @@ public class MainFrame  extends JFrame implements PropertyChangeListener
         }
         return Double.parseDouble(ta2.getText());
     }
+
     private boolean TryParseDouble(String str){
         try {
             Double.parseDouble(str);
@@ -170,6 +221,7 @@ public class MainFrame  extends JFrame implements PropertyChangeListener
             return false;
         }
     }
+
     private JButton createStyledButton(String text) {
         JButton btn = new JButton(text);
         btn.setBackground(Color.darkGray);
@@ -178,6 +230,7 @@ public class MainFrame  extends JFrame implements PropertyChangeListener
         btn.setFocusPainted(false);
         return btn;
     }
+
     private JLabel createStyledLabel(String text) {
         JLabel lb1 = new JLabel();
         lb1.setOpaque(true);
@@ -189,6 +242,7 @@ public class MainFrame  extends JFrame implements PropertyChangeListener
         lb1.setForeground(Color.CYAN);
         return lb1;
     }
+
     private JTextArea createStyledTextArea(String text) {
         JTextArea ta = new JTextArea(1,2);
         ta.setOpaque(true);
@@ -198,6 +252,7 @@ public class MainFrame  extends JFrame implements PropertyChangeListener
         ta.setForeground(Color.CYAN);
         return ta;
     }
+
     private void ChangeNumeral(String str, String name) {
         String input = JOptionPane.showInputDialog(
                 this,
@@ -253,6 +308,7 @@ public class MainFrame  extends JFrame implements PropertyChangeListener
 
         }
     }
+
     private void ShowIter()
     {
         this.window = new JWindow();
@@ -277,7 +333,7 @@ public class MainFrame  extends JFrame implements PropertyChangeListener
         textArea.setForeground(Color.GREEN);
         textArea.setFont(new Font("Monospaced", Font.PLAIN, 11));
 
-        // Сохраняем ссылку на textArea для обновления (добавьте поле в класс)
+        // Сохраняем ссылку на textArea для обновления
         this.iterTextArea = textArea;
 
         // Помещаем текстовую область в JScrollPane для прокрутки
@@ -294,6 +350,7 @@ public class MainFrame  extends JFrame implements PropertyChangeListener
         // Первоначальное обновление
         updateLabel();
     }
+
     private void CloseIter(){
         if(window!=null){ this.window.dispose();}
     }
@@ -305,6 +362,7 @@ public class MainFrame  extends JFrame implements PropertyChangeListener
             updateLabel();
         }
     }
+
     public void updateLabel(){
         if (iterTextArea == null) return; // проверка на случай, если окно закрыто
 
