@@ -13,29 +13,20 @@ public class App2 extends Main{
     }
 
     private void runDemo() {
-        System.out.println("=== Lab2: Iterative methods for SLAU ===");
+        System.out.println("=== Лабораторная работа 2: Итерационные методы решения СЛАУ ===");
 
-        /*
-         * ВАЖНО:
-         * Ниже стоит ПРИМЕР системы.
-         * Подставь сюда свою СЛАУ 2 из таблицы 2.1 (исходную или уже преобразованную).
-         *
-         * Формат:
-         * A * x = b
-         */
         float[][] A = {
-                {10f, 1f, 1f},
-                {2f, 10f, 1f},
-                {2f, 2f, 10f}
+                {20f, 4f, 3f},
+                {5f, 30f, 6f},
+                {1f, 2f, 10f}
         };
-        float[] b = {12f, 13f, 14f};
+        float[] b = {27f, 41f, 3f};
 
         // Точность по заданию:
         float targetEps = 1e-3f;
 
-        // Настройки solver'а
+        // Настройки решателя
         IterativeSolver.Options options = new IterativeSolver.Options();
-        options.method = IterativeMethod.SIMPLE_ITERATION; // или SEIDEL
         options.normType = NormType.INF;                   // удобно и стабильно
         options.maxIterations = 100_000;
         options.userEps = targetEps;
@@ -58,45 +49,44 @@ public class App2 extends Main{
         try {
             CanonicalSystem canonical = CanonicalSystem.fromAxEqualsB(A, b);
 
-            System.out.println("\n-- Canonical form x = alpha*x + beta (2.3) --");
+            System.out.println("\n-- x = alpha*x + beta  --");
             printMatrix("alpha", canonical.alpha);
-            printVector("beta ", canonical.beta);
+            printVector("beta", canonical.beta);
 
             // Опциональная проверка (2.5)
             if (options.enableOptionalChecks && options.enableFormula25Check) {
                 float alphaNorm = MatrixUtils.matrixNorm(canonical.alpha, options.normType);
                 System.out.printf("||alpha||_%s = %.6f%n", options.normType, alphaNorm);
-                System.out.println("Condition (2.5) ||alpha|| < 1 : " + (alphaNorm < 1f ? "YES" : "NO"));
+                System.out.println("Условие (2.5) ||alpha|| < 1 : " + (alphaNorm < 1f ? "ДА" : "НЕТ"));
             }
 
             IterativeSolver.Result result = IterativeSolver.solve(canonical, options);
 
-            System.out.println("\n-- Result --");
-            System.out.println("Method            : " + result.method);
-            System.out.println("Stop criterion    : " + result.usedStopCriterion);
-            System.out.println("Iterations        : " + result.iterations);
-            System.out.println("Converged         : " + result.converged);
-            System.out.println("Stopped by guard  : " + result.stoppedByGuard);
+            System.out.println("\n-- Результат --");
+            System.out.println("Критерий остановки    : " + result.usedStopCriterion);
+            System.out.println("Итераций              : " + result.iterations);
+            System.out.println("Сошёлся               : " + (result.converged ? "ДА" : "НЕТ"));
+            System.out.println("Остановлен защитой    : " + (result.stoppedByGuard ? "ДА" : "НЕТ"));
             printVector("x*", result.x);
-            System.out.printf("Last delta norm   : %.9f%n", result.lastDeltaNorm);
+            System.out.printf("Последняя норма разницы : %.9f%n", result.lastDeltaNorm);
             if (!Float.isNaN(result.estimatedError)) {
-                System.out.printf("Estimated error   : %.9f%n", result.estimatedError);
+                System.out.printf("Оценка погрешности     : %.9f%n", result.estimatedError);
             }
-            System.out.println("Message           : " + result.message);
+            System.out.println("Сообщение             : " + result.message);
 
             // Эксперимент: подбор минимальной eps, при которой вычисления завершаются корректно
-            System.out.println("\n-- Epsilon experiment (minimal stable user epsilon) --");
+            System.out.println("\n-- Эксперимент с точностью (минимальный стабильный epsilon) --");
             float found = IterativeSolver.findMinimalStableEpsilon(canonical, options,
                     1e-1f, 1e-12f, 10);
 
             if (found > 0f) {
-                System.out.printf("Approx minimal stable epsilon ~ %.12f%n", found);
+                System.out.printf("Минимальный стабильный epsilon ~ %.12f%n", found);
             } else {
-                System.out.println("Could not find stable epsilon in tested range.");
+                System.out.println("Не удалось найти стабильный epsilon в заданном диапазоне.");
             }
 
         } catch (IllegalArgumentException ex) {
-            System.out.println("Input error: " + ex.getMessage());
+            System.out.println("Ошибка ввода: " + ex.getMessage());
         }
     }
 

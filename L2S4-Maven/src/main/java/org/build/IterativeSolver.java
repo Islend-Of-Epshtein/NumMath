@@ -6,22 +6,20 @@ public final class IterativeSolver {
     }
 
     public static class Options {
-        public IterativeMethod method = IterativeMethod.SIMPLE_ITERATION;
         public StopCriterion stopCriterion = StopCriterion.SIMPLE_29;
         public NormType normType = NormType.INF;
 
         public float userEps = 1e-3f;
-        public int maxIterations = 100_000;
+        public int maxIterations = 10000;
 
-        public boolean checkConvergenceBeforeStart = false;
+        public boolean checkConvergenceBeforeStart = true;
 
-        public boolean enableOptionalChecks = false;
-        public boolean enableFormula25Check = false;
+        public boolean enableOptionalChecks = true;
+        public boolean enableFormula25Check = true;
 
         public boolean enableOverflowGuards = true;
         public float explosionThreshold = 1e30f;
     }
-
     public static class Result {
         public float[] x;
         public int iterations;
@@ -30,7 +28,6 @@ public final class IterativeSolver {
         public float lastDeltaNorm;
         public float estimatedError;
         public String message;
-        public IterativeMethod method;
         public StopCriterion usedStopCriterion;
     }
 
@@ -42,7 +39,6 @@ public final class IterativeSolver {
         int n = beta.length;
 
         Result result = new Result();
-        result.method = opt.method;
         result.usedStopCriterion = opt.stopCriterion;
         result.estimatedError = Float.NaN;
 
@@ -66,12 +62,7 @@ public final class IterativeSolver {
         }
 
         for (int k = 1; k <= opt.maxIterations; k++) {
-
-            if (opt.method == IterativeMethod.SIMPLE_ITERATION) {
-                stepSimple(alpha, beta, prev, cur);
-            } else {
-                stepSeidel(alpha, beta, prev, cur);
-            }
+            stepSimple(alpha, beta, prev, cur);
 
             if (opt.enableOverflowGuards) {
                 if (MatrixUtils.hasNonFinite(cur)) {
@@ -212,7 +203,6 @@ public final class IterativeSolver {
 
     private static Options copyOptions(Options src) {
         Options dst = new Options();
-        dst.method = src.method;
         dst.stopCriterion = src.stopCriterion;
         dst.normType = src.normType;
         dst.userEps = src.userEps;

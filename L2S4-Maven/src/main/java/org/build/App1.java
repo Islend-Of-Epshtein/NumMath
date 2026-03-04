@@ -8,14 +8,14 @@ public class App1 extends Main {
     private Matrix matrixA, matrixB, matrixS;
 
     // Геттеры и сеттеры
-    public double getMatrixA(int k, int n) { return matrixA.get(k, n); }
+    public float getMatrixA(int k, int n) { return (float) matrixA.get(k, n); }
     public void setMatrixA(double x, int k, int n) { this.matrixA.set(k, n, x); }
-    public double getMatrixB(int k, int n) { return matrixB.get(k, n); }
+    public float getMatrixB(int k, int n) { return (float) matrixB.get(k, n); }
     public void setMatrixB(double x, int k, int n) { this.matrixB.set(k, n, x); }
-    public double getMatrixS(int n) { return matrixS.get(0, n); }
+    public float getMatrixS(int n) { return (float) matrixS.get(0, n); }
     public void setMatrixS(double x, int n) { this.matrixS.set(0, n, x); }
 
-    public void StraightWayByFullSearch(){
+    public void StraightWayByFullSearch() {
         try {
             if (straightDone) { return; }
             if (matrixA.getColumnDimension() != matrixA.getRowDimension())
@@ -25,44 +25,54 @@ public class App1 extends Main {
             int n = matrixA.getRowDimension();
 
             for (int k = 0; k < n - 1; k++) {
-                // 1. Поиск главного элемента (первый ненулевой в столбце k)
-                int pivotRow = 0, pivotColumn= 0;
-                double max=matrixA.get(0,0);
-                for(int i = k; i<n; i++){
-                    for(int j = k; j<n; j++){
-                        if(matrixA.get(i,j)>max){
-                            pivotRow = i; pivotColumn = j;
-                            max = matrixA.get(i,j);
+
+                // Поиск главного элемента по модулю
+                int pivotRow = k, pivotColumn = k;
+                float max = (float) Math.abs(matrixA.get(k, k));
+
+                for (int i = k; i < n; i++) {
+                    for (int j = k; j < n; j++) {
+                        float val = (float) Math.abs(matrixA.get(i, j));
+                        if (val > max) {
+                            max = val;
+                            pivotRow = i;
+                            pivotColumn = j;
                         }
                     }
                 }
 
+                // Перестановки
                 if (pivotRow != k) {
                     swapRows(pivotRow, k);
-                    // Также меняем соответствующие элементы в B
-                    double tempB = matrixB.get(pivotRow, 0);
+                    float tempB = (float) matrixB.get(pivotRow, 0);
                     matrixB.set(pivotRow, 0, matrixB.get(k, 0));
                     matrixB.set(k, 0, tempB);
                 }
+
                 if (pivotColumn != k) {
                     swapColumns(pivotColumn, k);
                 }
 
-                // 3. Исключение переменной из нижних строк
-                for (int i = k + 1; i < n; i++) {
-                    double factor = matrixA.get(i, k) / matrixA.get(k, k);
+                float diag = (float) matrixA.get(k, k);
 
-                    // Обновляем строку i в матрице A
+                // Исключение с компенсационным суммированием
+                for (int i = k + 1; i < n; i++) {
+                    float factor = (float) (matrixA.get(i, k) / diag);
+
                     for (int j = k; j < n; j++) {
-                        double newValue = matrixA.get(i, j) - factor * matrixA.get(k, j);
+                        float product = (float) (factor * matrixA.get(k, j));
+                        float newValue = (float) (matrixA.get(i, j) - product);
                         matrixA.set(i, j, newValue);
                     }
 
-                    // Обновляем соответствующий элемент в B
-                    double newB = matrixB.get(i, 0) - factor * matrixB.get(k, 0);
+                    // Для правой части
+                    float productB = (float) (factor * matrixB.get(k, 0));
+                    float newB = (float) (matrixB.get(i, 0) - productB);
                     matrixB.set(i, 0, newB);
                 }
             }
+
+            // Не зануляем маленькие числа, просто запоминаем, что они есть
             straightDone = true;
 
         } catch (Exception ex) {
@@ -97,23 +107,23 @@ public class App1 extends Main {
                 if (pivotRow != k) {
                     swapRows(pivotRow, k);
                     // Также меняем соответствующие элементы в B
-                    double tempB = matrixB.get(pivotRow, 0);
+                    float tempB = (float) matrixB.get(pivotRow, 0);
                     matrixB.set(pivotRow, 0, matrixB.get(k, 0));
                     matrixB.set(k, 0, tempB);
                 }
 
                 // 3. Исключение переменной из нижних строк
                 for (int i = k + 1; i < n; i++) {
-                    double factor = matrixA.get(i, k) / matrixA.get(k, k);
+                    float factor = (float) (matrixA.get(i, k) / matrixA.get(k, k));
 
                     // Обновляем строку i в матрице A
                     for (int j = k; j < n; j++) {
-                        double newValue = matrixA.get(i, j) - factor * matrixA.get(k, j);
+                        float newValue = (float) (matrixA.get(i, j) - factor * matrixA.get(k, j));
                         matrixA.set(i, j, newValue);
                     }
 
                     // Обновляем соответствующий элемент в B
-                    double newB = matrixB.get(i, 0) - factor * matrixB.get(k, 0);
+                    float newB = (float) (matrixB.get(i, 0) - factor * matrixB.get(k, 0));
                     matrixB.set(i, 0, newB);
                 }
             }
@@ -139,7 +149,7 @@ public class App1 extends Main {
 
             // Обратный ход метода Гаусса
             for (int i = n - 1; i >= 0; i--) {
-                double sum = 0;
+                float sum = 0;
                 for (int j = i + 1; j < n; j++) {
                     sum += matrixA.get(i, j) * getMatrixS(j);
                 }
@@ -148,7 +158,7 @@ public class App1 extends Main {
                     throw new RuntimeException("Нулевой элемент на диагонали. Система вырождена.");
                 }
 
-                double x = (matrixB.get(i, 0) - sum) / matrixA.get(i, i);
+                float x = (float) ((matrixB.get(i, 0) - sum) / matrixA.get(i, i));
                 setMatrixS(x, i);
             }
 
@@ -166,7 +176,7 @@ public class App1 extends Main {
 
         // Меняем строки в матрице A
         for (int j = 0; j < cols; j++) {
-            double temp = matrixA.get(i1, j);
+            float temp = (float) matrixA.get(i1, j);
             matrixA.set(i1, j, matrixA.get(i2, j));
             matrixA.set(i2, j, temp);
         }
@@ -180,7 +190,7 @@ public class App1 extends Main {
 
         // Меняем строки в матрице A
         for (int j = 0; j < cols; j++) {
-            double temp = matrixA.get(i1, j);
+            float temp = (float) matrixA.get(i1, j);
             matrixA.set(j, i1, matrixA.get(i2, j));
             matrixA.set(j, i2, temp);
         }
@@ -244,36 +254,35 @@ public class App1 extends Main {
             };
             matrixB = new Matrix(B);
 
-            //System.out.println("Исходная матрица A:");
+            System.out.println("Исходная матрица A:");
             matrixA.print(8, 2);
 
-            //System.out.println("\nИсходная матрица B:");
+            System.out.println("\nИсходная матрица B:");
             matrixB.print(8, 2);
 
             // Прямой ход метода Гаусса ( с выбором главного и без )
 
-            StraightWayByFullSearch();
+            //StraightWayByFullSearch();
 
-            //StandardStraightWay();
-
-            //System.out.println("\nМатрица A после прямого хода:");
+            StandardStraightWay();
+            System.out.println("\nМатрица A после прямого хода:");
             matrixA.print(8, 2);
 
-            //System.out.println("\nМатрица B после прямого хода:");
+            System.out.println("\nМатрица B после прямого хода:");
             matrixB.print(8, 2);
 
             // Обратный ход метода Гаусса
             GausMetod();
 
             // Вывод решения
-            //printSolution();
+            printSolution();
 
             // Проверка решения
-            //verifySolution();
+            verifySolution();
 
         } catch (Exception ex) {
-            //System.err.println("Ошибка: " + ex.getMessage());
-            //ex.printStackTrace();
+            System.err.println("Ошибка: " + ex.getMessage());
+            ex.printStackTrace();
         }
     }
 }

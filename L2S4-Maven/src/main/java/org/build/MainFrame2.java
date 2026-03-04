@@ -10,10 +10,10 @@ public class MainFrame2 extends MainFrame {
         super.initComponents();
         AddSwitchMenu();
         setVisible(true);
-
     }
 
-    protected void initComponents2() {
+    protected void initComponents2()
+    {
         menuBar.removeAll();
         AddSwitchMenu();
         Container p = new Container();
