@@ -2,7 +2,7 @@ package org.build;
 
 import java.util.Arrays;
 
-public class App2 extends Main{
+public class App2 extends Main {
 
     public App2() {
         runDemo();
@@ -13,91 +13,113 @@ public class App2 extends Main{
     }
 
     private void runDemo() {
-        System.out.println("=== Лабораторная работа 2: Итерационные методы решения СЛАУ ===");
+        System.out.println("=== Лабораторная 2: итерационные методы и прогонка ===");
 
-        float[][] A = {
+        float[][] a = {
                 {20f, 4f, 3f},
                 {5f, 30f, 6f},
                 {1f, 2f, 10f}
         };
         float[] b = {27f, 41f, 3f};
 
-        // Точность по заданию:
-        float targetEps = 1e-3f;
+        float[] reference =
+                GaussianEliminationSolver.solve(a, b, GaussianPivotMode.PARTIAL_BY_COLUMN).solution;
 
-        // Настройки решателя
-        IterativeSolver.Options options = new IterativeSolver.Options();
-        options.normType = NormType.INF;                   // удобно и стабильно
-        options.maxIterations = 100_000;
-        options.userEps = targetEps;
+        CanonicalSystem canonical = CanonicalSystem.fromAxEqualsB(a, b);
 
-        // По заданию: в базовом варианте НЕ контролируем сходимость до запуска
-        options.checkConvergenceBeforeStart = false;
+        System.out.println("\nalpha = ");
+        printMatrix(canonical.alpha);
+        System.out.println("beta = " + Arrays.toString(canonical.beta));
 
-        // Базовый критерий остановки по (2.9)
-        options.stopCriterion = StopCriterion.SIMPLE_29;
+        IterativeSolver.Options simpleOptions = new IterativeSolver.Options();
+        simpleOptions.method = IterativeMethod.SIMPLE_ITERATION;
+        simpleOptions.stopCriterion = StopCriterion.SIMPLE_28;
+        simpleOptions.userEps = 1e-3f;
+        simpleOptions.maxIterations = 100_000;
+        simpleOptions.checkConvergenceBeforeStart = false;
 
-        // Доп. опции (по заданию — опционально)
-        options.enableOptionalChecks = true;          // включить доп. проверки
-        options.enableFormula25Check = true;          // проверка (2.5): ||alpha|| < 1
-        options.enableOverflowGuards = true;
+        printIterativeCase("Метод простых итераций", a, b, canonical, simpleOptions, reference);
 
-        // Для эксперимента можно переключать метод и критерий:
-        // options.method = IterativeMethod.SEIDEL;
-        // options.stopCriterion = StopCriterion.SEIDEL_210;
+        IterativeSolver.Options seidelOptions = new IterativeSolver.Options();
+        seidelOptions.method = IterativeMethod.SEIDEL;
+        seidelOptions.stopCriterion = StopCriterion.SEIDEL_210;
+        seidelOptions.userEps = 1e-3f;
+        seidelOptions.maxIterations = 100_000;
+        seidelOptions.checkConvergenceBeforeStart = false;
 
-        try {
-            CanonicalSystem canonical = CanonicalSystem.fromAxEqualsB(A, b);
+        printIterativeCase("Метод Зейделя", a, b, canonical, seidelOptions, reference);
 
-            System.out.println("\n-- x = alpha*x + beta  --");
-            printMatrix("alpha", canonical.alpha);
-            printVector("beta", canonical.beta);
+        float minStableEps = IterativeSolver.findMinimalStableEpsilon(
+                canonical,
+                seidelOptions,
+                1e-1f,
+                1e-7f,
+                5
+        );
+        System.out.println("\nМинимальный стабильный epsilon для текущего примера: " + minStableEps);
 
-            // Опциональная проверка (2.5)
-            if (options.enableOptionalChecks && options.enableFormula25Check) {
-                float alphaNorm = MatrixUtils.matrixNorm(canonical.alpha, options.normType);
-                System.out.printf("||alpha||_%s = %.6f%n", options.normType, alphaNorm);
-                System.out.println("Условие (2.5) ||alpha|| < 1 : " + (alphaNorm < 1f ? "ДА" : "НЕТ"));
-            }
+        printTridiagonalDemo();
+    }
 
-            IterativeSolver.Result result = IterativeSolver.solve(canonical, options);
+    private static void printIterativeCase(String title,
+                                           float[][] a,
+                                           float[] b,
+                                           CanonicalSystem canonical,
+                                           IterativeSolver.Options options,
+                                           float[] reference) {
+        System.out.println("\n--- " + title + " ---");
 
-            System.out.println("\n-- Результат --");
-            System.out.println("Критерий остановки    : " + result.usedStopCriterion);
-            System.out.println("Итераций              : " + result.iterations);
-            System.out.println("Сошёлся               : " + (result.converged ? "ДА" : "НЕТ"));
-            System.out.println("Остановлен защитой    : " + (result.stoppedByGuard ? "ДА" : "НЕТ"));
-            printVector("x*", result.x);
-            System.out.printf("Последняя норма разницы : %.9f%n", result.lastDeltaNorm);
-            if (!Float.isNaN(result.estimatedError)) {
-                System.out.printf("Оценка погрешности     : %.9f%n", result.estimatedError);
-            }
-            System.out.println("Сообщение             : " + result.message);
+        float alphaNorm = MatrixUtils.matrixNorm(canonical.alpha, options.normType);
+        System.out.println("||alpha|| = " + alphaNorm);
+        System.out.println("Условие (2.5): " + (alphaNorm < 1f ? "выполнено" : "не выполнено"));
 
-            // Эксперимент: подбор минимальной eps, при которой вычисления завершаются корректно
-            System.out.println("\n-- Эксперимент с точностью (минимальный стабильный epsilon) --");
-            float found = IterativeSolver.findMinimalStableEpsilon(canonical, options,
-                    1e-1f, 1e-12f, 10);
+        IterativeSolver.Result result = IterativeSolver.solve(canonical, options);
+        SolveReport report = MatrixUtils.buildReport(a, b, result.x, reference, 0.1f);
 
-            if (found > 0f) {
-                System.out.printf("Минимальный стабильный epsilon ~ %.12f%n", found);
-            } else {
-                System.out.println("Не удалось найти стабильный epsilon в заданном диапазоне.");
-            }
+        System.out.println("Метод: " + result.method);
+        System.out.println("Критерий остановки: " + result.usedStopCriterion);
+        System.out.println("Итераций: " + result.iterations);
+        System.out.println("Сошёлся: " + result.converged);
+        System.out.println("Остановлен защитой: " + result.stoppedByGuard);
+        System.out.println("x = " + Arrays.toString(result.x));
+        System.out.println("||x(k)-x(k-1)|| = " + result.lastDeltaNorm);
+        System.out.println("Оценка погрешности = " + result.estimatedError);
+        System.out.println("max|r| = " + report.maxResidual);
+        System.out.println("max|x - x_ref| = " + report.maxDifferenceFromReference);
+        System.out.println("Комментарий: " + report.comment);
 
-        } catch (IllegalArgumentException ex) {
-            System.out.println("Ошибка ввода: " + ex.getMessage());
+        if (result.converged && report.maxResidual > 0.1f) {
+            System.out.println("Внимание: критерий остановки сработал, но невязка всё ещё велика.");
         }
     }
 
-    private static void printMatrix(String name, float[][] m) {
-        System.out.println(name + " = ");
-        for (float[] row : m) {
+    private static void printTridiagonalDemo() {
+        System.out.println("\n--- Метод прогонки ---");
+
+        float[] lower = {1f, 1f, 1f};
+        float[] diagonal = {4f, 4f, 4f, 4f};
+        float[] upper = {1f, 1f, 1f};
+        float[] rhs = {5f, 6f, 6f, 5f};
+
+        float[] solution = TridiagonalSolver.solve(lower, diagonal, upper, rhs);
+
+        float[][] fullMatrix = {
+                {4f, 1f, 0f, 0f},
+                {1f, 4f, 1f, 0f},
+                {0f, 1f, 4f, 1f},
+                {0f, 0f, 1f, 4f}
+        };
+
+        SolveReport report = MatrixUtils.buildReport(fullMatrix, rhs, solution, null, 0.1f);
+
+        System.out.println("x = " + Arrays.toString(solution));
+        System.out.println("max|r| = " + report.maxResidual);
+        System.out.println("Комментарий: " + report.comment);
+    }
+
+    private static void printMatrix(float[][] matrix) {
+        for (float[] row : matrix) {
             System.out.println(Arrays.toString(row));
         }
-    }
-
-    private static void printVector(String name, float[] v) {
-        System.out.println(name + " = " + Arrays.toString(v));
     }
 }
