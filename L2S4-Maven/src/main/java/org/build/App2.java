@@ -1,5 +1,7 @@
 package org.build;
 
+import Jama.Matrix;
+
 import java.util.Arrays;
 
 public class App2 {
@@ -13,7 +15,7 @@ public class App2 {
     }
 
     private void runDemo() {
-        System.out.println("=== Лабораторная 2: итерационные методы и прогонка ===");
+        System.out.println("=== Пункт 2: итерационные методы и прогонка ===");
 
         float[][] a = {
                 {20f, 4f, 3f},
@@ -95,7 +97,6 @@ public class App2 {
 
     private static void printTridiagonalDemo() {
         System.out.println("\n--- Метод прогонки ---");
-
         float[] lower = {1f, 1f, 1f};
         float[] diagonal = {4f, 4f, 4f, 4f};
         float[] upper = {1f, 1f, 1f};

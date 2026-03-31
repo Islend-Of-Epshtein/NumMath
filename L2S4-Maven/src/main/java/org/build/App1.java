@@ -9,7 +9,7 @@ public class App1 {
     }
 
     private void runDemo() {
-        System.out.println("=== Лабораторная 1: метод Гаусса ===");
+        System.out.println("=== Пункт 1: метод Гаусса ===");
 
         float[][] a = {
                 {15f, 20f, 30f, 40f},

@@ -220,7 +220,6 @@ public final class MatrixUtils {
         }
         return max;
     }
-
     private static float matrixNormFrobenius(float[][] m) {
         double sum = 0.0;
         for (float[] row : m) {
