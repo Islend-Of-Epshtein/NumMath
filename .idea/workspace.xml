@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="20294b60-ebd7-4af3-b235-0b8e9ee5d491" name="Changes" comment="L3S4 - ready">
+      <change afterPath="$PROJECT_DIR$/L4S4-Maven/src/main/java/Model.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/L4S4-Maven/src/main/java/SplineModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/L4S4-Maven/src/main/java/SplineView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/L4S4-Maven/src/main/java/View.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/NumMath-L1S4.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Jama_1_0_3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vs/NumMath/v17/.wsuo" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vs/NumMath/v17/DocumentLayout.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vs/VSWorkspaceState.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/L1S4-Maven/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/L1S4-Maven/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/L1S4-Maven/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/L1S4-Maven/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/L1S4-Maven/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/L1S4-Maven/Icon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/L1S4-Maven/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/L1S4-Maven/src/main/java/org/build/Grafic.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/L1S4-Maven/src/main/java/org/build/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/L1S4-Maven/src/main/java/org/build/MainFrame.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/L2S4-Maven/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/L2S4-Maven/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/L2S4-Maven/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/L2S4-Maven/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/L2S4-Maven/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/L2S4-Maven/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/L2S4-Maven/src/main/java/org/build/App1.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/L2S4-Maven/src/main/java/org/build/App2.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/L2S4-Maven/src/main/java/org/build/CanonicalSystem.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/L2S4-Maven/src/main/java/org/build/GaussianEliminationSolver.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/L2S4-Maven/src/main/java/org/build/GaussianPivotMode.Java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/L2S4-Maven/src/main/java/org/build/IterativeMethod.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/L2S4-Maven/src/main/java/org/build/IterativeSolver.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/L2S4-Maven/src/main/java/org/build/Main2.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/L2S4-Maven/src/main/java/org/build/MainFrame2.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/L2S4-Maven/src/main/java/org/build/MatrixUtils.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/L2S4-Maven/src/main/java/org/build/NormType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/L2S4-Maven/src/main/java/org/build/SolveReport.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/L2S4-Maven/src/main/java/org/build/StopCriterion.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/L2S4-Maven/src/main/java/org/build/TeeOutputStream.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/L2S4-Maven/src/main/java/org/build/TridiagonalSolver.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/L2S4-Maven/src/resources/Jama-1.0.3.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/L2S4-Maven/src/test/java/org/build/AppTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/L3S4-Maven/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/L4S4-Maven/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/L3S4-Maven/src/main/java/Model.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/L3S4-Maven/src/main/java/View.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/img.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/img_1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/results.txt" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "URETHZ"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/Islend-Of-Epshtein/NumMath",
+    "accountId": "049551d3-67bc-465f-88a2-38f7a8803466"
+  }
+}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
+  <component name="ProjectId" id="3BZErWsj7oYZDSkY2kMGqG5XKZQ" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.InterpolationLab3.executor": "Run",
+    "Application.Main2.executor": "Run",
+    "Application.SplineView.executor": "Run",
+    "Application.View.executor": "Run",
+    "Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "L4S4",
+    "kotlin-language-version-configured": "true",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0"
+  }
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-30f59d01ecdd-26cb7f24e5b0-intellij.indexing.shared.core-IU-253.29346.240" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="20294b60-ebd7-4af3-b235-0b8e9ee5d491" name="Changes" comment="" />
+      <created>1774688391231</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1774688391231</updated>
+    </task>
+    <task id="LOCAL-00001" summary="L3S4 - ready">
+      <option name="closed" value="true" />
+      <created>1774981897347</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1774981897347</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="L3S4 - ready" />
+    <option name="LAST_COMMIT_MESSAGE" value="L3S4 - ready" />
+  </component>
+</project>

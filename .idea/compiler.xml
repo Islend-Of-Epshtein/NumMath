@@ -6,8 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="L3S4-Maven" />
+        <module name="L4S4-Maven" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="L3S4-Maven" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>
