@@ -21,5 +21,17 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
+    
+    <dependency>
+      <groupId>com.github.gv2011</groupId>
+      <artifactId>tools-rename</artifactId>
+      <version>0.12</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>gov.nist.math</groupId>
+      <artifactId>jama</artifactId>
+      <version>1.0.3</version>
+    </dependency>
   </dependencies>
 </project>
