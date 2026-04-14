@@ -9,5 +9,8 @@
         <module name="L3S4-Maven" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="L4S4-Maven" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>
