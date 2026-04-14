@@ -1,8 +1,8 @@
 package org.build;
 
 import Jama.Matrix;
-
 import java.util.Arrays;
+import org.build.GaussianPivotMode;
 
 public class App2 {
 
@@ -22,7 +22,7 @@ public class App2 {
                 {5f, 30f, 6f},
                 {1f, 2f, 10f}
         };
-        float[] b = {27f, 41f, 3f};
+        float[] b = {27f, 41f, 13f};
 
         float[] reference =
                 GaussianEliminationSolver.solve(a, b, GaussianPivotMode.PARTIAL_BY_COLUMN).solution;

@@ -1,6 +1,7 @@
 package org.build;
 
 import java.util.Arrays;
+import org.build.GaussianPivotMode;
 
 public class App1 {
 
